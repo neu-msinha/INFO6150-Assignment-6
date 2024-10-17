@@ -1,11 +1,48 @@
-# Assignment: Two-Page Website Using CSS Grid, Flexbox, and SCSS Features
+# Clothing Store: Two-Page Website Using CSS Grid, Flexbox, and SCSS Features
 
 ## Overview
 This assignment is designed to demonstrate the use of **CSS Grid layout**, **Flexbox**, and **SASS/SCSS** in building a two-page website. The site uses a combination of modern CSS techniques and advanced SCSS features to create a responsive, visually rich user interface.
 
 ### Features Implemented:
 1. **CSS Grid Layout**: Applied in two areas to organize content into a structured, responsive grid.
+    ```scss
+    .container {
+        display: grid;
+        grid-template-columns: minmax(6rem, 1fr) repeat(8, minmax(min-content, 16rem)) minmax(6rem, 1fr);
+        grid-template-rows: repeat(4, min-content);
+        grid-row-gap: 1.6rem;
+        background-color: color(tertiary);
+    }   
+    ```
+    ```scss
+    .header {
+        grid-column: 1 / -1;
+        grid-row: 1 / 2;
+        display: grid;
+        grid-template-columns: minmax(10rem, 1fr) repeat(7, minmax(min-content, 16rem)) minmax(10rem, 1fr);
+        grid-template-rows: repeat(3, min-content);
+        grid-gap: 2rem;
+        z-index: 100;
+    }
+    ```
 2. **Flexbox Layout**: Used to arrange flexible, adaptable layouts across various sections for improved alignment and distribution of elements.
+    ```scss
+    &-list {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+    }
+    ```
+    ```scss
+    .contact-section {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 7%;
+    }
+    ```
 3. **SASS/SCSS Features**: The project leverages multiple SCSS features including variables, custom properties, nesting, interpolation, placeholder selectors, mixins, and functions. Additional SCSS features such as loops and conditionals are also implemented to enhance code efficiency.
 
 ---
@@ -78,10 +115,10 @@ Placeholder selectors are used for reusable blocks of styles, which are then ext
 Mixins are defined to create reusable, modular blocks of styles, particularly for responsive breakpoints.
 - **Example**:
     ```scss
-    @mixin response($size) {
-        @if $size == xl {
-            @media (max-width: 1200px) { @content; }
-        }
+    @mixin flexPosition($justCont: center, $alignIte: center) {
+    display: flex;
+    justify-content: $justCont;
+    align-items: $alignIte;
     }
     ```
 
@@ -89,8 +126,8 @@ Mixins are defined to create reusable, modular blocks of styles, particularly fo
 SCSS functions are utilized to retrieve values from maps, making the code more dynamic.
 - **Example**:
     ```scss
-    @function color($name) {
-        @return map-get($colors, $name);
+    @function color($color-name) {
+    @return map-get($colors, $color-name);
     }
     ```
 
@@ -111,9 +148,11 @@ Loops are used to iterate over a list of values, dynamically applying styles to 
 Conditional statements are used within mixins to apply styles based on breakpoints.
 - **Example**:
     ```scss
-    @mixin response($size) {
-        @if $size == xl {
-            @media (max-width: 1200px) { @content; }
+    @mixin response($breakpoint) {
+        @if($breakpoint == xl) {
+            @media(max-width: 1200px) {
+                @content;
+            }
         }
     }
     ```
@@ -150,14 +189,15 @@ Keyframe animations are written directly within SCSS to control the visibility a
 SCSS inheritance is used with `@extend` to allow multiple elements to share the same style by extending placeholder selectors. This promotes code reusability and efficiency.
 - **Example**:
     ```scss
-    %fade-animation {
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0.3s, opacity 0.3s;
-    }
-
-    .slideshow-slide {
+    &-slide {
+        @extend %center-position;
         @extend %fade-animation;
+
+        img {
+            width: inherit;
+            height: inherit;
+            object-fit: cover;
+        }
     }
     ```
 
@@ -165,15 +205,8 @@ SCSS inheritance is used with `@extend` to allow multiple elements to share the 
 SCSS uses media queries inside the `response` mixin to adapt the layout based on screen size, ensuring the website is fully responsive.
 - **Example**:
     ```scss
-    @mixin response($size) {
-        @if $size == xl {
-            @media (max-width: 1200px) { @content; }
-        } @else if $size == lg {
-            @media (max-width: 992px) { @content; }
-        }
-        @else if $size == md {
-            @media (max-width: 768px) { @content; }
-        }
+    @media(max-width: 1200px) {
+            @content;
     }
     ```
 
